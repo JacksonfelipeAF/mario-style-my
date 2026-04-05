@@ -1078,13 +1078,15 @@ const setupEventListeners = () => {
     }
   });
 
-  // Controles do jogo - Touch (Celular)
+  // Controles do jogo - Touch (Celular) - Melhorado para Android
   let touchStartTime = 0;
+  let touchStartY = 0;
 
   document.addEventListener(
     "touchstart",
     (e) => {
       touchStartTime = Date.now();
+      touchStartY = e.touches[0].clientY;
 
       // Impedir zoom e scroll durante o jogo
       if (
@@ -1101,10 +1103,13 @@ const setupEventListeners = () => {
     "touchend",
     (e) => {
       const touchDuration = Date.now() - touchStartTime;
+      const touchEndY = e.changedTouches[0].clientY;
+      const touchDeltaY = Math.abs(touchEndY - touchStartY);
 
-      // Verificar se foi um toque rápido (não um zoom)
+      // Verificar se foi um toque rápido e sem movimento vertical (não scroll)
       if (
         touchDuration < 200 &&
+        touchDeltaY < 10 &&
         e.target.closest(".game-board") &&
         !e.target.closest("button")
       ) {
@@ -1115,21 +1120,39 @@ const setupEventListeners = () => {
     { passive: false },
   );
 
-  // Impedir zoom com pinch no game board
+  // Impedir zoom com pinch e scroll no game board
   document.addEventListener(
     "touchmove",
     (e) => {
-      if (e.target.closest(".game-board") && e.touches.length > 1) {
+      if (e.target.closest(".game-board")) {
         e.preventDefault();
       }
     },
     { passive: false },
   );
 
-  // Prevenir menu de contexto
+  // Prevenir menu de contexto e seleção
   document.addEventListener("contextmenu", (e) => {
     e.preventDefault();
   });
+
+  document.addEventListener("selectstart", (e) => {
+    e.preventDefault();
+  });
+
+  // Prevenir double tap zoom
+  let lastTouchEnd = 0;
+  document.addEventListener(
+    "touchend",
+    (e) => {
+      const now = Date.now();
+      if (now - lastTouchEnd <= 300) {
+        e.preventDefault();
+      }
+      lastTouchEnd = now;
+    },
+    false,
+  );
 
   // Otimizar viewport para mobile
   if ("ontouchstart" in window) {
@@ -1137,10 +1160,24 @@ const setupEventListeners = () => {
     if (viewport) {
       viewport.setAttribute(
         "content",
-        "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no",
+        "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover",
       );
     }
+
+    // Adicionar classe mobile para estilos específicos
+    document.body.classList.add("mobile-device");
   }
+
+  // Prevenir pull-to-refresh
+  document.addEventListener(
+    "touchmove",
+    (e) => {
+      if (e.touches[0].clientY < 100 && gameState.currentScreen === "game") {
+        e.preventDefault();
+      }
+    },
+    { passive: false },
+  );
 };
 
 // Adicionar estilos CSS para animações

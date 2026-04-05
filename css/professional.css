@@ -3,6 +3,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 body {
@@ -15,6 +19,10 @@ body {
   margin: 0;
   padding: 10px;
   overflow: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  touch-action: manipulation;
 }
 
 /* Loading Screen */
@@ -1151,5 +1159,52 @@ body {
 
   .stat-item {
     min-width: 120px;
+  }
+}
+
+/* Otimizações específicas para Android */
+@media (max-width: 480px) {
+  /* Prevenir zoom e scroll */
+  html,
+  body {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Melhorar performance */
+  .game-board {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    will-change: transform;
+  }
+
+  /* Otimizar animações */
+  .mario,
+  .pipe,
+  .obstacle,
+  .nuven,
+  .nuven2 {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+  }
+
+  /* Botões maiores para toque */
+  .control-btn {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .menu-btn {
+    min-height: 44px;
+  }
+
+  /* Prevenir seleção de texto */
+  * {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
 }
