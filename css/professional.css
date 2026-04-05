@@ -6,7 +6,7 @@
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   min-height: 100vh;
   display: flex;
@@ -311,7 +311,9 @@ body {
 }
 
 /* Power-ups e Moedas */
-#power-ups-container, #coins-container, #particles-container {
+#power-ups-container,
+#coins-container,
+#particles-container {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -395,67 +397,115 @@ body {
 
 /* Animações */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes loadingProgress {
-  from { width: 0%; }
-  to { width: 100%; }
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
 }
 
 @keyframes titleGlow {
-  from { text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3); }
-  to { text-shadow: 3px 3px 20px rgba(255, 215, 0, 0.5); }
+  from {
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+  }
+  to {
+    text-shadow: 3px 3px 20px rgba(255, 215, 0, 0.5);
+  }
 }
 
 @keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-20px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
 }
 
 @keyframes powerUpFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 @keyframes coinSpin {
-  from { transform: rotateY(0deg); }
-  to { transform: rotateY(360deg); }
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
 }
 
 @keyframes particleFade {
-  from { 
+  from {
     opacity: 1;
     transform: scale(1);
   }
-  to { 
+  to {
     opacity: 0;
     transform: scale(0.5) translateY(-30px);
   }
 }
 
 @keyframes pipe {
-  from { right: -80px; }
-  to { right: 100%; }
+  from {
+    right: -80px;
+  }
+  to {
+    right: 100%;
+  }
 }
 
 @keyframes obstacle {
-  from { right: -80px; }
-  to { right: 100%; }
+  from {
+    right: -80px;
+  }
+  to {
+    right: 100%;
+  }
 }
 
 @keyframes nuven-animation {
-  from { right: -60px; }
-  to { right: 100%; }
+  from {
+    right: -60px;
+  }
+  to {
+    right: 100%;
+  }
 }
 
 @keyframes jump {
-  0% { bottom: 0; }
-  40% { bottom: 190px; }
-  50% { bottom: 190px; }
-  60% { bottom: 190px; }
-  100% { bottom: 0; }
+  0% {
+    bottom: 0;
+  }
+  40% {
+    bottom: 190px;
+  }
+  50% {
+    bottom: 190px;
+  }
+  60% {
+    bottom: 190px;
+  }
+  100% {
+    bottom: 0;
+  }
 }
 
 .jump {
@@ -653,7 +703,7 @@ body {
   width: 0%;
 }
 
-/* Responsivo */
+/* Responsivo - Tablets */
 @media (max-width: 768px) {
   body {
     padding: 5px;
@@ -687,6 +737,7 @@ body {
   .stats {
     justify-content: center;
     gap: 8px;
+    flex-wrap: wrap;
   }
 
   .stats div {
@@ -696,7 +747,7 @@ body {
 
   .game-board {
     width: 95%;
-    height: 300px;
+    height: 350px;
   }
 
   .achievements-grid {
@@ -705,5 +756,253 @@ body {
 
   .modal-content {
     padding: 20px;
+  }
+}
+
+/* Responsivo - Celulares Grandes */
+@media (max-width: 480px) {
+  body {
+    padding: 2px;
+  }
+
+  .game-container {
+    padding: 8px;
+    margin: 2px;
+    max-height: 100vh;
+    border-radius: 15px;
+  }
+
+  .game-title {
+    font-size: 1.8em;
+    margin-bottom: 8px;
+  }
+
+  .subtitle {
+    font-size: 1em;
+    margin-bottom: 25px;
+  }
+
+  .menu-buttons {
+    gap: 8px;
+  }
+
+  .menu-btn {
+    padding: 10px 15px;
+    font-size: 0.9em;
+    border-radius: 20px;
+  }
+
+  .btn-icon {
+    font-size: 1em;
+  }
+
+  .menu-stats {
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+  }
+
+  .stat-item {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .game-info {
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .stats {
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .stats div {
+    font-size: 0.7em;
+    padding: 2px 6px;
+    border-radius: 12px;
+  }
+
+  .game-controls {
+    gap: 8px;
+  }
+
+  .control-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 1em;
+  }
+
+  .game-board {
+    width: 98%;
+    height: 400px;
+    border-radius: 8px;
+  }
+
+  .mario {
+    width: 90px;
+  }
+
+  .pipe {
+    width: 50px;
+  }
+
+  .nuven {
+    width: 50px;
+  }
+
+  .nuven2 {
+    width: 80px;
+    height: 50px;
+  }
+
+  .sol {
+    width: 90px;
+  }
+
+  .power-up {
+    width: 25px;
+    height: 25px;
+  }
+
+  .coin {
+    width: 15px;
+    height: 15px;
+  }
+
+  .game-over {
+    padding: 20px;
+    margin: 10px;
+  }
+
+  .game-over h2 {
+    font-size: 1.5em;
+  }
+
+  .game-over-stats p {
+    font-size: 0.9em;
+  }
+
+  .game-over-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .game-over button {
+    padding: 10px 20px;
+    font-size: 1em;
+  }
+
+  .modal-content {
+    padding: 15px;
+    margin: 10px;
+  }
+
+  .modal-content h2 {
+    font-size: 1.5em;
+  }
+
+  .setting-item {
+    flex-direction: column;
+    gap: 8px;
+    align-items: stretch;
+  }
+
+  .achievements-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .achievement {
+    padding: 15px;
+  }
+
+  .achievement-icon {
+    font-size: 1.5em;
+  }
+
+  .achievement h3 {
+    font-size: 1em;
+  }
+
+  .achievement p {
+    font-size: 0.8em;
+  }
+}
+
+/* Responsivo - Celulares Pequenos */
+@media (max-width: 360px) {
+  .game-title {
+    font-size: 1.5em;
+  }
+
+  .subtitle {
+    font-size: 0.9em;
+  }
+
+  .menu-btn {
+    padding: 8px 12px;
+    font-size: 0.85em;
+  }
+
+  .stats div {
+    font-size: 0.65em;
+    padding: 2px 5px;
+  }
+
+  .game-board {
+    height: 380px;
+  }
+
+  .mario {
+    width: 80px;
+  }
+
+  .pipe {
+    width: 45px;
+  }
+
+  .control-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 0.9em;
+  }
+
+  .game-over {
+    padding: 15px;
+  }
+
+  .game-over h2 {
+    font-size: 1.3em;
+  }
+
+  .modal-content {
+    padding: 12px;
+  }
+
+  .modal-content h2 {
+    font-size: 1.3em;
+  }
+}
+
+/* Orientação Paisagem para Celulares */
+@media (max-width: 768px) and (orientation: landscape) {
+  .game-container {
+    max-height: 95vh;
+  }
+
+  .game-board {
+    height: 280px;
+  }
+
+  .menu-stats {
+    flex-direction: row;
+    gap: 20px;
+  }
+
+  .stat-item {
+    min-width: 120px;
   }
 }
