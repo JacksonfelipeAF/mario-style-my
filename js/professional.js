@@ -548,6 +548,20 @@ const startNewGame = () => {
   coinSystem.container.innerHTML = "";
   particleSystem.container.innerHTML = "";
 
+  // Resetar Mario completamente
+  mario.src = "img/mario-gif.gif";
+  mario.style.width = "110px";
+  mario.style.marginLeft = "0";
+  mario.style.bottom = "0";
+  mario.style.display = "block";
+  mario.classList.remove("jump");
+
+  // Resetar obstáculos para posição inicial
+  pipe.style.animation = "none";
+  obstacle.style.animation = "none";
+  pipe.style.right = "-80px";
+  obstacle.style.right = "-80px";
+
   // Atualizar interface
   updateAllUI();
 
@@ -555,8 +569,11 @@ const startNewGame = () => {
   document.getElementById("main-menu").style.display = "none";
   document.getElementById("game-container").style.display = "block";
 
-  // Iniciar jogo
-  startGame();
+  // Pequeno delay para garantir que tudo está resetado
+  setTimeout(() => {
+    // Iniciar jogo
+    startGame();
+  }, 100);
 
   playSound("menu");
 };
@@ -732,6 +749,19 @@ const resumeGame = () => {
 
 const restartGame = () => {
   document.getElementById("pause-menu").style.display = "none";
+
+  // Limpar loop anterior se existir
+  if (loop) {
+    clearInterval(loop);
+  }
+
+  // Resetar estado do jogo completamente
+  gameState.isGameOver = false;
+  gameState.isPaused = false;
+  gameState.isInvincible = false;
+  gameState.doublePoints = false;
+
+  // Iniciar novo jogo
   startNewGame();
 };
 
@@ -876,6 +906,19 @@ const updateHighScore = () => {
 // Reset de Jogo
 const resetGame = () => {
   document.getElementById("game-over").style.display = "none";
+
+  // Limpar loop anterior se existir
+  if (loop) {
+    clearInterval(loop);
+  }
+
+  // Resetar estado do jogo completamente
+  gameState.isGameOver = false;
+  gameState.isPaused = false;
+  gameState.isInvincible = false;
+  gameState.doublePoints = false;
+
+  // Iniciar novo jogo
   startNewGame();
 };
 
