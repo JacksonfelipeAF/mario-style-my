@@ -319,7 +319,7 @@ class CoinSystem {
     );
   }
 
-  collectCoin(coin, index) {
+  collectCoin = (coin, index) => {
     playSound("coin");
     particleSystem.createExplosion(
       parseInt(coin.style.right),
@@ -331,6 +331,11 @@ class CoinSystem {
     coins++;
     updateCoins();
 
+    // Salvar total de moedas
+    const totalCoins =
+      parseInt(localStorage.getItem("marioTotalCoins") || 0) + 1;
+    localStorage.setItem("marioTotalCoins", totalCoins);
+
     // A cada 10 moedas ganha uma vida
     if (coins % 10 === 0) {
       lives++;
@@ -340,7 +345,7 @@ class CoinSystem {
 
     coin.remove();
     this.coins.splice(index, 1);
-  }
+  };
 }
 
 // Sistema de Conquistas
@@ -571,6 +576,10 @@ const startNewGame = () => {
 
   // Pequeno delay para garantir que tudo está resetado
   setTimeout(() => {
+    // Aplicar animação do cano novamente
+    pipe.style.animation = `pipe ${gameSpeed}s infinite linear`;
+    obstacle.style.animation = `obstacle ${gameSpeed + 0.5}s infinite linear`;
+
     // Iniciar jogo
     startGame();
   }, 100);
@@ -580,6 +589,8 @@ const startNewGame = () => {
 
 // Sistema de Jogo
 const startGame = () => {
+  let gameStartTime = Date.now();
+
   loop = setInterval(() => {
     if (gameState.isPaused || gameState.isGameOver) return;
 
@@ -622,7 +633,18 @@ const startGame = () => {
     if (score > 0 && score % 20 === 0) {
       levelUp();
     }
+
+    // Atualizar tempo de jogo
+    updatePlayTime(gameStartTime);
   }, 15);
+};
+
+const updatePlayTime = (startTime) => {
+  const currentTime = Date.now();
+  const playTime = Math.floor((currentTime - startTime) / 1000);
+  const totalPlayTime =
+    parseInt(localStorage.getItem("marioTotalPlayTime") || 0) + 1;
+  localStorage.setItem("marioTotalPlayTime", totalPlayTime);
 };
 
 const jump = () => {
@@ -665,6 +687,12 @@ const levelUp = () => {
   gameSpeed = Math.max(0.5, gameSpeed - 0.1);
   pipe.style.animationDuration = `${gameSpeed}s`;
   obstacle.style.animationDuration = `${gameSpeed + 0.5}s`;
+
+  // Salvar melhor nível
+  const bestLevel = parseInt(localStorage.getItem("marioBestLevel") || 1);
+  if (gameState.level > bestLevel) {
+    localStorage.setItem("marioBestLevel", gameState.level);
+  }
 
   updateLevel();
   achievementSystem.updateProgress("survivor");
@@ -852,10 +880,117 @@ const closeAchievements = () => {
 };
 
 const showHighScores = () => {
-  alert(
-    `🏆 Recordes\n\nRecorde Atual: ${highScore}\nTotal de Jogos: ${gameState.totalGamesPlayed}`,
-  );
+  // Criar modal de recordes
+  const modal = document.createElement("div");
+  modal.className = "high-scores-modal";
+  modal.innerHTML = `
+    <div class="high-scores-content">
+      <h2>🏆 Hall da Fama</h2>
+      <div class="high-scores-list">
+        <div class="high-score-item">
+          <span class="score-label">🥇 Recorde Atual</span>
+          <span class="score-value">${highScore}</span>
+        </div>
+        <div class="high-score-item">
+          <span class="score-label">🎮 Total de Jogos</span>
+          <span class="score-value">${gameState.totalGamesPlayed}</span>
+        </div>
+        <div class="high-score-item">
+          <span class="score-label">⭐ Melhor Nível</span>
+          <span class="score-value">${localStorage.getItem("marioBestLevel") || 1}</span>
+        </div>
+        <div class="high-score-item">
+          <span class="score-label">🪙 Total de Moedas</span>
+          <span class="score-value">${localStorage.getItem("marioTotalCoins") || 0}</span>
+        </div>
+        <div class="high-score-item">
+          <span class="score-label">⏱️ Tempo de Jogo</span>
+          <span class="score-value">${formatPlayTime()}</span>
+        </div>
+      </div>
+      <div class="high-scores-buttons">
+        <button onclick="resetAllRecords()">🗑️ Resetar Recordes</button>
+        <button onclick="closeHighScores()">✅ Fechar</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
   playSound("menu");
+};
+
+const closeHighScores = () => {
+  const modal = document.querySelector(".high-scores-modal");
+  if (modal) {
+    modal.remove();
+  }
+  playSound("menu");
+};
+
+const resetAllRecords = () => {
+  if (confirm("🗑️ Tem certeza que deseja resetar TODOS os recordes?")) {
+    localStorage.removeItem("marioHighScore");
+    localStorage.removeItem("marioBestLevel");
+    localStorage.removeItem("marioTotalCoins");
+    localStorage.removeItem("marioTotalPlayTime");
+    localStorage.removeItem("marioAchievements");
+    localStorage.removeItem("marioSettings");
+
+    highScore = 0;
+    gameState.totalGamesPlayed = 0;
+
+    closeHighScores();
+
+    // Mostrar notificação
+    showNotification("🗑️ Recordes resetados com sucesso!");
+
+    // Recarregar página para resetar tudo
+    setTimeout(() => {
+      location.reload();
+    }, 1000);
+  }
+};
+
+const formatPlayTime = () => {
+  const totalSeconds = localStorage.getItem("marioTotalPlayTime") || 0;
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  if (hours > 0) {
+    return `${hours}h ${minutes}m`;
+  } else if (minutes > 0) {
+    return `${minutes}m ${seconds}s`;
+  } else {
+    return `${seconds}s`;
+  }
+};
+
+const showNotification = (message) => {
+  const notification = document.createElement("div");
+  notification.className = "notification";
+  notification.textContent = message;
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #4ecdc4, #45b7b0);
+    color: white;
+    padding: 15px 25px;
+    border-radius: 25px;
+    font-weight: bold;
+    z-index: 10000;
+    animation: slideIn 0.5s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  `;
+
+  document.body.appendChild(notification);
+
+  setTimeout(() => {
+    notification.style.animation = "slideOut 0.5s ease";
+    setTimeout(() => notification.remove(), 500);
+  }, 3000);
 };
 
 // Atualização de UI
