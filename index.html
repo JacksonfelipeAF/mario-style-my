@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Super Mario Bros - Professional Edition</title>
     <link rel="stylesheet" href="css/professional.css" />
-    <link rel="icon" type="image/x-icon" href="img/mario-gif.gif" />
   </head>
   <body>
     <!-- Loading Screen -->
@@ -23,11 +22,11 @@
     </div>
 
     <!-- Menu Inicial -->
-    <div id="main-menu" class="main-menu" style="display: none;">
+    <div id="main-menu" class="main-menu" style="display: none">
       <div class="menu-content">
         <h1 class="game-title">Super Mario Bros</h1>
         <p class="subtitle">Professional Edition</p>
-        
+
         <div class="menu-buttons">
           <button class="menu-btn primary" onclick="startNewGame()">
             <span class="btn-icon">🎮</span>
@@ -46,7 +45,7 @@
             Conquistas
           </button>
         </div>
-        
+
         <div class="menu-stats">
           <div class="stat-item">
             <span class="stat-label">Recorde:</span>
@@ -61,7 +60,7 @@
     </div>
 
     <!-- Pause Menu -->
-    <div id="pause-menu" class="pause-menu" style="display: none;">
+    <div id="pause-menu" class="pause-menu" style="display: none">
       <div class="pause-content">
         <h2>Jogo Pausado</h2>
         <div class="pause-buttons">
@@ -82,7 +81,7 @@
     </div>
 
     <!-- Game Container -->
-    <div id="game-container" class="game-container" style="display: none;">
+    <div id="game-container" class="game-container" style="display: none">
       <div class="game-header">
         <div class="game-info">
           <div class="stats">
@@ -106,22 +105,27 @@
       <div class="game-board">
         <!-- Power-ups -->
         <div id="power-ups-container"></div>
-        
+
         <!-- Moedas -->
         <div id="coins-container"></div>
-        
+
         <!-- Obstáculos -->
         <img src="img/images.png" class="pipe" alt="Cano verde" />
-        <img src="img/pngegg (3).png" class="obstacle" alt="Obstáculo" style="display: none;" />
-        
+        <img
+          src="img/pngegg (3).png"
+          class="obstacle"
+          alt="Obstáculo"
+          style="display: none"
+        />
+
         <!-- Mario -->
         <img src="img/mario-gif.gif" class="mario" alt="Mario pulando" />
-        
+
         <!-- Elementos de fundo -->
         <img src="img/nuven.gif" class="nuven" alt="Nuvem 1" />
         <img src="img/pngegg (1).png" class="nuven2" alt="Nuvem 2" />
         <img src="img/sol.png" class="sol" alt="Sol" />
-        
+
         <!-- Partículas -->
         <div id="particles-container"></div>
       </div>
@@ -143,7 +147,7 @@
     </div>
 
     <!-- Settings Modal -->
-    <div id="settings-modal" class="modal" style="display: none;">
+    <div id="settings-modal" class="modal" style="display: none">
       <div class="modal-content">
         <h2>Configurações</h2>
         <div class="settings-options">
@@ -157,7 +161,13 @@
           </div>
           <div class="setting-item">
             <label>Volume:</label>
-            <input type="range" id="volume-slider" min="0" max="100" value="50">
+            <input
+              type="range"
+              id="volume-slider"
+              min="0"
+              max="100"
+              value="50"
+            />
           </div>
           <div class="setting-item">
             <label>Qualidade Gráfica:</label>
@@ -176,7 +186,7 @@
     </div>
 
     <!-- Achievements Modal -->
-    <div id="achievements-modal" class="modal" style="display: none;">
+    <div id="achievements-modal" class="modal" style="display: none">
       <div class="modal-content">
         <h2>Conquistas</h2>
         <div class="achievements-grid">
