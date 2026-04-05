@@ -6,6 +6,7 @@ let score = 0;
 let gameSpeed = 1.5;
 let isGameOver = false;
 let loop;
+let hasScored = false;
 
 const jump = () => {
   if (isGameOver) return;
@@ -27,11 +28,12 @@ const updateScore = () => {
 
 const resetGame = () => {
   score = 0;
+  hasScored = false;
   isGameOver = false;
   gameSpeed = 1.5;
 
   // Reinicia completamente o Mario
-  mario.src = "../img/mario-gif.gif";
+  mario.src = "img/mario-gif.gif";
   mario.style.width = "110px";
   mario.style.marginLeft = "0";
   mario.style.bottom = "0";
@@ -58,7 +60,7 @@ const resetGame = () => {
 
   // Força o navegador a recarregar a imagem
   setTimeout(() => {
-    mario.src = "../img/mario-gif.gif?t=" + Date.now();
+    mario.src = "img/mario-gif.gif?t=" + Date.now();
   }, 100);
 
   startGame();
@@ -75,13 +77,16 @@ const startGame = () => {
 
     if (pipePosition <= 50 && pipePosition > 0 && marioPosition < 90) {
       gameOver();
-    } else if (pipePosition < -50) {
+    } else if (pipePosition <= 120 && pipePosition > 110 && !hasScored) {
       updateScore();
+      hasScored = true;
 
       if (score % 5 === 0) {
         gameSpeed = Math.max(0.8, gameSpeed - 0.1);
         pipe.style.animationDuration = `${gameSpeed}s`;
       }
+    } else if (pipePosition > 120) {
+      hasScored = false;
     }
   }, 15);
 };
@@ -95,7 +100,7 @@ const gameOver = () => {
   mario.style.animation = "none";
   mario.style.bottom = `${window.getComputedStyle(mario).bottom}`;
 
-  mario.src = "../img/gif-morto.gif";
+  mario.src = "img/gif-morto.gif";
   mario.style.width = "100px";
   mario.style.marginLeft = "5px";
 
